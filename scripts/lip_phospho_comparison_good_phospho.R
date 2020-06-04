@@ -9,6 +9,12 @@ library(viper)
 
 source("~/Dropbox/conformationomic_yeast_picotti_2020/scripts/support_functions.R")
 
+CapStr <- function(y) {
+  c <- strsplit(y, " ")[[1]]
+  paste(toupper(substring(c, 1,1)), substring(c, 2),
+        sep="", collapse=" ")
+}
+
 conformationomic <- as.data.frame(
   read_delim("~/Dropbox/conformationomic_yeast_picotti_2020/data/Table1.csv", ";", escape_double = FALSE, locale = locale(decimal_mark = ",", grouping_mark = "."), trim_ws = TRUE))
 
@@ -349,11 +355,22 @@ nodes$type <- apply(nodes,1,function(x)
 
 library(visNetwork)
 
+
+nodes <- nodes[!grepl("_",nodes$id) | abs(nodes$value) > 1.5,]
+edges <- edges[edges$from %in% nodes$id & edges$to %in% nodes$id,]
+nodes <- nodes[nodes$id %in% edges$from | nodes$id %in% edges$to,]
 visNetwork(nodes = nodes, edges = edges)
 
+
 nodes$label <- gsub(".*_","",nodes$label) 
+nodes$label_nocap <- tolower(nodes$label)
+nodes$label_nocap <- sapply(nodes$label_nocap, CapStr)
+
+
+
 write_csv(nodes,"~/Dropbox/conformationomic_yeast_picotti_2020/results/network_kinase_phospho_lip_att.csv")
 write_csv(edges,"~/Dropbox/conformationomic_yeast_picotti_2020/results/network_kinase_phospho_lip_sif.csv")
+write_csv(nodes[,c(1,7)],"~/Dropbox/conformationomic_yeast_picotti_2020/results/network_kinase_phospho_lip_att_nocaps.csv")
 
 ###############
 
