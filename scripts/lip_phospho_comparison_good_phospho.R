@@ -361,6 +361,15 @@ edges <- edges[edges$from %in% nodes$id & edges$to %in% nodes$id,]
 nodes <- nodes[nodes$id %in% edges$from | nodes$id %in% edges$to,]
 visNetwork(nodes = nodes, edges = edges)
 
+nodes$kinase_Act <- ifelse(nodes$type == "kinase" | nodes$type == "phosphatase" & nodes$type, , NA)
+nodes$lipFC <- ifelse(nodes$type == "prot", nodes$value, NA)
+nodes$phospho_t_val <- ifelse(nodes$type == "psite", nodes$value, NA)
+
+nodes$value_adjusted <- nodes$value
+nodes$value_adjusted <- ifelse(nodes$type == "prot", nodes$value + 100, nodes$value_adjusted)
+nodes$value_adjusted <- ifelse(nodes$type == "psite", nodes$value - 100, nodes$value_adjusted)
+
+
 
 nodes$label <- gsub(".*_","",nodes$label) 
 nodes$label_nocap <- tolower(nodes$label)
