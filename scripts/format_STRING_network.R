@@ -1,9 +1,9 @@
 library(readr)
 
 X4932_protein_links_detailed_v11_0 <- as.data.frame(
-  read_table2("Dropbox/conformationomic_yeast_picotti_2020/supports/4932.protein.links.detailed.v11.0.txt"))
+  read_table2("Dropbox/conformationomic_yeast_picotti_2020/supports/4932.protein.links.detailed.v11.0.txt")) #need to download from STITCHdb (large file)
 
-X4932_protein_links_detailed_v11_0 <- X4932_protein_links_detailed_v11_0[X4932_protein_links_detailed_v11_0$combined_score >= 900,]
+X4932_protein_links_detailed_v11_0 <- X4932_protein_links_detailed_v11_0[X4932_protein_links_detailed_v11_0$combined_score >= 900,] 
 
 yeast_PPI_noTM <- X4932_protein_links_detailed_v11_0
 
@@ -13,7 +13,7 @@ yeast_PPI_noTM$edge_id <- paste(yeast_PPI_noTM$protein1,yeast_PPI_noTM$protein2,
 
 
 X4932_protein_actions_v11_0 <- as.data.frame(
-  read_table2("Dropbox/conformationomic_yeast_picotti_2020/supports/4932.protein.actions.v11.0.txt"))
+  read_table2("Dropbox/conformationomic_yeast_picotti_2020/supports/4932.protein.actions.v11.0.txt")) #need to download from STITCHdb (large file)
 
 yeast_PKN <- X4932_protein_actions_v11_0[X4932_protein_actions_v11_0$is_directional,]
 yeast_PKN$edge_id <- paste(yeast_PKN$item_id_a, yeast_PKN$item_id_b, sep = "_")
