@@ -183,7 +183,7 @@ new_df$psite_ID <- paste(new_df$Uniprot_ID, new_df$psite, sep = "_")
 
 new_df <- new_df %>% group_by(psite_ID) %>% slice(which.max(Log2FC))
 
-phospho_uniprot_to_symbole <- as.data.frame(read_delim("phospho_uniprot_to_symbole", 
+phospho_uniprot_to_symbole <- as.data.frame(read_delim("~/Dropbox/conformationomic_yeast_picotti_2020/supports/phospho_uniprot_to_symbole", 
                                                        "\t", escape_double = FALSE, trim_ws = TRUE))
 
 new_df <- merge(new_df, phospho_uniprot_to_symbole, by = "Uniprot_ID")
