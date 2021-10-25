@@ -4,3 +4,6 @@
 *.key
 *.pdf
 *.cys
+
+.DS_Store
+supports/.DS_Store
